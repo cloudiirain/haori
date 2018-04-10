@@ -6,20 +6,27 @@ Haori is a python bot for interacting with the Novel Updates Forum.
 
 * python 3
 * virtualenv
-* geckodriver ([OSX](https://remarkablemark.org/blog/2016/11/06/selenium-geckodriver/))
+* Google Chrome
+* chromedriver ([Install on OSX](http://brewformulas.org/Chromedriver))
 
 ### Installing
 
-```
-git clone [url]
+```bash
+# Clone the repository
+git clone https://github.com/cloudiirain/haori.git
 cd haori
+
+# Setup a python3 virtual environment
 virtualenv -p python3 env
 . env/bin/activate
+
+# Install the python package
 pip install -r requirements.txt
 ```
 
-Haori uses the Selenium Firefox webdriver by default. Therefore, be sure
-that a Firefox webdriver (e.g. geckodriver) can be found in `$PATH`.
+Haori uses the Selenium Chrome webdriver by default. Therefore, be sure
+that Chrome is installed on your local machine. Additionally, a Chrome
+webdriver must be found in `$PATH`.
 
 ## Running the tests
 
