@@ -1,4 +1,48 @@
-"""Post class."""
+"""Post class.
+
+Sample HTML structure of a NUF post:
+
+```html
+<li id="post-360506" class="message" data-author="DCLXVI">
+  <div class="messageUserInfo">...</div>
+  <div class="messageInfo primaryContent">
+    <div class="messageContent">
+      <article>
+        <blockquote class="messageText SelectQuoteContainer ugc baseHtml">
+          {{ POST CONTENT }}
+          <div class="messageTextEndMarker">...</div>
+        </blockquote>
+      </article>
+    </div>
+    <div class="messageMeta ToggleTriggerAnchor">...</div>
+    <div id="likes-post-360506">...</div>
+  </div>
+</li>
+```
+
+Sample HTML structure of a BBCode [quote][/quote] block:
+
+```html
+<div class="bbCodeBlock bbCodeQuote" data-author="nrvn qsr">
+  <aside>
+    <div class="attribution type">
+      nrvn qsr said:
+    </div>
+    <blockquote class="quoteContainer">
+      <div class="quote">
+        <span style="font-size: 22px">
+          {{ QUOTE CONTENT }}
+        </span>
+      </div>
+      <div class="quoteExpand">
+        Click to expand...
+      </div>
+    </blockquote>
+  </aside>
+</div>
+```
+
+"""
 
 __author__ = 'cloudiirain'
 __version__ = '0.0.1'
@@ -18,7 +62,7 @@ class Post(object):
     """
 
     def __init__(self, soup):
-        """Construct a single post given a BeautifulSoup Tag object.
+        """Construct a single post given a BeautifulSoup <li> Tag object.
 
         Args:
             soup (bs4.Tag): BeautifulSoup Tag object.
@@ -32,60 +76,51 @@ class Post(object):
         """Print string representation of the post."""
         return self.id
 
-    def __repr__(self):
-        """Print computer representation of the post."""
-        return self.id
-
     def get_id(self):
         """Print the numeric integer of the id of this post."""
         return int(self.id.split('-')[1])
 
     def get_text(self, remove_quotes=True, remove_tags=False):
-        r"""Print the text body of the post.
+        """Print the text body of the post.
 
         Args:
-            remove_quotes (bool): Remove BB Code quote blocks if True.
-            remove_tags (bool): Removes all html tags if True and replaces
-                `<br>` with `\n`.
+            remove_quotes (bool): Remove BBCode [quote][/quote] blocks.
+            remove_tags (bool): Removes all html tags and print only text.
 
         Return:
-            (str) Returns the parsed post text body.
+            (str) The post text.
 
         """
+        # Deep copy is needed to prevent modifying self.text
         text_copy = copy.copy(self.text)
+
+        # Remove <div class="messageTextEndMarker">...</div>
+        text_copy.find('div', 'messageTextEndMarker').decompose()
+
         if remove_quotes:
+            # Remove all incidences of <div class="bbCodeQuote">...</div>
             for quote in text_copy.find_all('div', 'bbCodeQuote'):
                 quote.decompose()
+
         if remove_tags:
-            # Temporarily mark <br /> tags
-            for newline in text_copy.find_all('br'):
-                newline.replace_with('\\NEWLINE')
+            # Insert a newline after </div> tags
+            for div in text_copy.find_all('div'):
+                div.insert_after('\n')
+            return text_copy.get_text().strip()
 
-            # Strip all tags from text
-            text = ''
-            for string in text_copy.stripped_strings:
-                text = text + string.strip() + ' '
+        # Print HTML with extra whitespace stripped
+        text_contents = ''.join(str(i).strip() for i in text_copy.contents)
+        return text_contents.replace('\n', '').replace('\t', '')
 
-            # Split text on NEWLINES, strip extra whitespace, and return
-            result = ''
-            for line in text.split('\\NEWLINE'):
-                result = result + line.strip() + '\n'
-            return result
-        return str(text_copy)
-
-    def get_lines(self, remove_quotes=True, remove_tags=True):
-        """Return the text body line-by-line.
+    def get_lines(self, remove_quotes=True):
+        """Return the text body line-by-line with HTML stripped.
 
         Args:
             remove_quotes (bool): Remove BB Code quote blocks if True.
-            remove_tags (bool): Removes all html tags if True.
 
         Return:
             str[] Returns a list of strings.
 
         """
-        text = self.get_text(remove_quotes, remove_tags)
-        if remove_tags:
-            # Remove the newline at EOF
-            return text.split('\n')[:-1]
-        return text.split('<br/>')
+        text = self.get_text(remove_quotes, remove_tags=True)
+        return text.split('\n')

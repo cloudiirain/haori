@@ -1,9 +1,5 @@
 """Test models/post.py module."""
 
-__author__ = 'cloudiirain'
-__version__ = '0.0.1'
-__status__ = 'development'
-
 import os
 import unittest
 
@@ -13,7 +9,7 @@ from haori.models.post import Post
 
 
 class PostTest(unittest.TestCase):
-    """Test case for general post object methods."""
+    """Test case for post object methods."""
 
     def setUp(self):
         """Set up test case."""
@@ -27,10 +23,9 @@ class PostTest(unittest.TestCase):
         self.assertEqual(self.post.id, 'post-360506')
         self.assertEqual(self.post.author, 'DCLXVI')
 
-    def test_str_repr(self):
-        """Test __str__() and __repr__() methods."""
+    def test_str(self):
+        """Test __str__() method."""
         self.assertEqual(str(self.post), 'post-360506')
-        self.assertEqual(repr(self.post), 'post-360506')
 
     def test_get_id(self):
         """Test get_id() method."""
@@ -53,8 +48,14 @@ class PostTest(unittest.TestCase):
 
     def test_get_lines(self):
         """Test get_lines() method."""
-        self.assertEqual(len(self.post.get_lines()), 23)
-        self.assertEqual(len(self.post.get_lines(remove_tags=False)), 23)
+        post_lines = self.post.get_lines()
+        self.assertEqual(len(post_lines), 23)
+        self.assertEqual(post_lines[0], 'that was what she said')
+        self.assertEqual(post_lines[1], '')
+        self.assertEqual(post_lines[2], (
+            'congratulations to the winner of easy mode: @Shio and the runner '
+            'up @episod3ux '
+        ))
 
 
 if __name__ == '__main__':

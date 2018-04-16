@@ -7,7 +7,9 @@ Haori is a python bot for interacting with the Novel Updates Forum.
 * python 3
 * virtualenv
 * Google Chrome
-* chromedriver ([Install on OSX](http://brewformulas.org/Chromedriver))
+* chromedriver
+
+
 
 ### Installing
 
@@ -35,6 +37,7 @@ webdriver must be found in `$PATH`.
 ## Built With
 
 * [Selenium](https://www.seleniumhq.org/)
+* [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/)
 
 ## Contributing
 
