@@ -1,13 +1,8 @@
 """Testing."""
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from haori.models.bot import Bot
 
-c_opt = Options()
-c_opt.add_argument('--headless')
+haori = Bot('haori')
+page = haori.get('https://forum.novelupdates.com/threads/word-chain-pokemon-edition.3880/')
 
-driver = webdriver.Chrome(executable_path='chromedriver', chrome_options=c_opt)
-
-driver.get('http://www.google.com')
-
-print(len(driver.page_source))
+print(str(page.soup))

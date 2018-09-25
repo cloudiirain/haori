@@ -38,6 +38,7 @@ webdriver must be found in `$PATH`.
 
 * [Selenium](https://www.seleniumhq.org/)
 * [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/)
+* [html5lib](https://pypi.org/project/html5lib/)
 
 ## Contributing
 
