@@ -11,6 +11,7 @@ haori = Bot('dice')
 haori.login(sys.argv[1])
 page = haori.get('https://forum.novelupdates.com/threads/word-association.3094')
 while(page.next_url):
+    print('Now reading page: ' + page.title, file=sys.stderr)
     posts = page.soup.find('ol', class_='messageList')
     for post in posts.children:
         if post.name == u'li':
@@ -25,5 +26,5 @@ while(page.next_url):
                     dictionary[word] = 1
     page = haori.get(page.next_url)
 
-for key in sorted(dictionary.iterkeys()):
+for key in sorted(dictionary.keys()):
     print(key + '\t' + str(dictionary[key]))
