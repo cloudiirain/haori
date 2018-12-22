@@ -1,48 +1,4 @@
-"""Post class.
-
-Sample HTML structure of a NUF post:
-
-```html
-<li id="post-360506" class="message" data-author="DCLXVI">
-  <div class="messageUserInfo">...</div>
-  <div class="messageInfo primaryContent">
-    <div class="messageContent">
-      <article>
-        <blockquote class="messageText SelectQuoteContainer ugc baseHtml">
-          {{ POST CONTENT }}
-          <div class="messageTextEndMarker">...</div>
-        </blockquote>
-      </article>
-    </div>
-    <div class="messageMeta ToggleTriggerAnchor">...</div>
-    <div id="likes-post-360506">...</div>
-  </div>
-</li>
-```
-
-Sample HTML structure of a BBCode [quote][/quote] block:
-
-```html
-<div class="bbCodeBlock bbCodeQuote" data-author="nrvn qsr">
-  <aside>
-    <div class="attribution type">
-      nrvn qsr said:
-    </div>
-    <blockquote class="quoteContainer">
-      <div class="quote">
-        <span style="font-size: 22px">
-          {{ QUOTE CONTENT }}
-        </span>
-      </div>
-      <div class="quoteExpand">
-        Click to expand...
-      </div>
-    </blockquote>
-  </aside>
-</div>
-```
-
-"""
+"""Post class."""
 
 __author__ = 'cloudiirain'
 __version__ = '0.0.1'
